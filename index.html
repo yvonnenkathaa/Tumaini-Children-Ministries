@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TUMAINI Children's Ministry</title>
+
+<!-- Fonts & icons -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ---------- VARIABLES ---------- */
+:root{
+  --bg-start: #eaf6ff;
+  --bg-end:   #ffffff;
+  --section-blue: #0b3a66;
+  --section-blue-2:#134f7a;
+  --gold:      #c99b3b;
+  --muted:     #4b6b80;
+  --card-radius: 14px;
+  --max-width: 1200px;
+  --text-dark: #072033;
+}
+
+/* ---------- RESET ---------- */
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Nunito",system-ui,-apple-system,Segoe UI,Roboto,Arial}
+html,body{height:100%}
+body{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
+    url("images/bg2.jpg") center/cover no-repeat fixed;
+  color:var(--text-dark);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  overflow-x:hidden;
+}
+
+/* ---------- WATERMARK ---------- */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image: url("images/bglogo.jpg");
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:36%;
+  opacity:0.045;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ---------- LAYOUT ---------- */
+.wrap{
+  max-width:var(--max-width);
+  margin:18px auto;
+  padding:20px;
+  position:relative;
+  z-index:1;
+}
+
+/* ---------- HEADER ---------- */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px;
+  border-radius:12px;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 8px 24px rgba(6,28,45,0.06);
+  position: sticky;
+  top:12px;
+  z-index: 60;
+  backdrop-filter: blur(4px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  font-weight:900;
+  font-size:20px;
+  color:var(--section-blue);
+  cursor:pointer;
+  user-select:none;
+  display:inline-block;
+  transform-origin:center;
+  transition: transform .28s, text-shadow .28s, color .24s;
+}
+@keyframes tumainiSoftPop{
+  0%{ transform:translateY(0) scale(1); text-shadow:none; color:var(--section-blue) }
+  30%{ transform:translateY(-8px) scale(1.06); color:var(--gold); text-shadow:0 8px 28px rgba(201,155,59,0.45) }
+  65%{ transform:translateY(-3px) scale(1.03) }
+  100%{ transform:translateY(0) scale(1); text-shadow:none; color:var(--section-blue) }
+}
+.logo.pulse{ animation: tumainiSoftPop 850ms cubic-bezier(.22,.9,.34,1) both }
+.brand small{ display:block; font-size:12px; color:var(--muted) }
+
+nav.main{ display:flex; gap:8px; flex-wrap:wrap }
+nav.main a{
+  color:var(--section-blue);
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:10px;
+  font-weight:700;
+  transition: transform .15s, background .15s;
+}
+nav.main a:focus{ outline:2px dashed rgba(11,58,102,0.12) }
+nav.main a:hover{ transform:translateY(-3px); background: linear-gradient(90deg, rgba(201,155,59,0.12), rgba(201,155,59,0.06)) }
+
+/* ---------- PAGE SECTIONS ---------- */
+section.page{ padding:48px 0; display:none }
+section.page.active{ display:block }
+#home { display: block; }
+
+/* ---------- CARD STYLE ---------- */
+.card{
+  max-width:1100px;
+  margin:0 auto;
+  padding:28px;
+  border-radius:var(--card-radius);
+  box-shadow:0 12px 32px rgba(6,28,45,0.06);
+  background: linear-gradient(180deg,var(--section-blue), var(--section-blue-2));
+  color:#fff;
+  border:2px solid rgba(255,255,255,0.04);
+}
+section.page.gallery .card{ background:#fff; color:var(--text-dark); border:1px solid rgba(6,28,45,0.06) }
+.card h1, .card h2, .card h3{ margin:0 0 10px; color:var(--gold) }
+.card p{ margin:0 0 12px; color:rgba(255,255,255,0.92) }
+
+/* ---------- HOME PAGE ---------- */
+.columns{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:12px }
+.news{ background:rgba(255,255,255,0.06); padding:12px; border-radius:10px; min-height:100px }
+.news h4{ margin:0 0 6px; color:var(--gold) }
+
+/* LATEST PHOTOS SECTION - FIXED: Images scale with page but don't zoom in */
+.home-gallery{ 
+  display:grid; 
+  grid-template-columns:repeat(4,1fr); 
+  gap:15px; 
+  margin-top:14px;
+  width: 100%;
+}
+.home-gallery .gallery-item{
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%; /* 4:3 aspect ratio - creates a container that maintains proportions */
+  border-radius:10px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.home-gallery .gallery-item:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 15px 30px rgba(0,0,0,0.3);
+}
+.home-gallery .gallery-item img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This ensures images cover the area without distortion */
+}
+
+/* ---------- PROGRAMS PAGE ---------- */
+.program-container { margin-top: 20px; }
+.program-section {
+  background: rgba(255,255,255,0.04);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  border-left: 4px solid var(--gold);
+}
+.program-image-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border: 2px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.program-image-container:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 30px -10px rgba(0,0,0,0.4);
+}
+.program-image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.program-section h3 {
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-size: 1.4em;
+}
+
+/* ---------- FUND ---------- */
+.fund-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px }
+.fund{ background:rgba(255,255,255,0.06); padding:12px; border-radius:10px }
+
+/* ========== GALLERY - BENTO GRID WITH MAGNET EFFECT ========== */
+.gallery-section {
+  margin-bottom: 50px;
+}
+
+.gallery-section h3 {
+  color: var(--section-blue);
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  position: relative;
+  display: inline-block;
+}
+.gallery-section h3:after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+/* BENTO GRID - Mix of different sized cells */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  grid-auto-rows: 200px;
+}
+
+/* Different bento cell sizes */
+.bento-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+/* MAGNET EFFECT - On hover, the item attracts and lifts */
+.bento-item:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 30px 40px -10px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
+/* Adjacent items get slightly pulled toward the hovered item */
+.bento-item:hover + .bento-item {
+  transform: translateX(8px);
+}
+.bento-item:has(+ .bento-item:hover) {
+  transform: translateX(-8px);
+}
+
+.bento-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Different sizes for bento items - creates the bento effect */
+.bento-item.wide {
+  grid-column: span 2;
+}
+.bento-item.tall {
+  grid-row: span 2;
+}
+.bento-item.big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Caption styling */
+.bento-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(11,58,102,0.9), transparent);
+  color: white;
+  padding: 20px 15px 15px;
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.bento-item:hover .bento-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- LIGHTBOX ---------- */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.lightbox.active { display: flex; }
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  object-fit: contain; /* Shows full image regardless of size */
+}
+.lightbox-caption {
+  color: white;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.close-lightbox {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: var(--gold);
+  color: var(--section-blue);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+.close-lightbox:hover { transform: scale(1.1); }
+
+/* ---------- CONTACT ---------- */
+.contact-form{ margin-top:12px; display:grid; gap:8px }
+input, textarea, select{
+  padding:12px; border-radius:8px; border:2px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:#fff;
+}
+.page.gallery input, .page.gallery textarea{ background:#fff; color:var(--text-dark); border:1px solid rgba(6,28,45,0.06) }
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 14px; border-radius:10px;
+  background:var(--gold); color:var(--section-blue); font-weight:800; border:none; cursor:pointer;
+}
+.btn:focus{ outline:3px dashed rgba(11,58,102,0.18); outline-offset:4px }
+
+/* ---------- WAVE BRUSH ---------- */
+.wave-brush{ width:100%; height:84px; margin-top:18px; overflow:visible }
+.wave-brush svg{ display:block; width:100%; height:100% }
+
+/* ---------- BOARD OF MANAGEMENT ---------- */
+.board-members-container {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.board-image {
+  flex: 0 0 300px;
+}
+.board-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+.board-list {
+  flex: 1;
+  min-width: 300px;
+}
+.board-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+.board-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.92);
+  font-size: 1.05em;
+}
+.board-list li:last-child { border-bottom: none; }
+
+/* ---------- STUDENT STORIES ---------- */
+.student-stories {
+  margin-top: 30px;
+  background: rgba(255,255,255,0.06);
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 6px solid var(--gold);
+}
+.student-story {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.student-story:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.student-story img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.student-story img:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 30px -10px rgba(0,0,0,0.4);
+}
+.student-story-content { flex: 1; }
+.student-story-content h4 {
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-size: 1.3em;
+}
+.student-story-content p {
+  color: rgba(255,255,255,0.92);
+  line-height: 1.6;
+}
+.student-story-meta {
+  color: var(--gold);
+  font-weight: bold;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* ---------- DOWNLOAD BUTTON ---------- */
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: var(--gold);
+  color: var(--section-blue);
+  font-weight: 800;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+.download-btn:hover {
+  transform: translateY(-3px);
+  background: #d4a74a;
+  text-decoration: none;
+  color: var(--section-blue);
+}
+.download-btn:focus{ 
+  outline:3px dashed rgba(11,58,102,0.18); 
+  outline-offset:4px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:980px){
+  .columns{ grid-template-columns:repeat(2,1fr) }
+  .home-gallery{ grid-template-columns:repeat(2,1fr) }
+  .fund-grid{ grid-template-columns:1fr }
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .student-story { flex-direction: column; }
+  .student-story img { width: 100%; height: 200px; }
+  .board-members-container { flex-direction: column; }
+  .board-image { flex: 0 0 auto; width: 100%; }
+}
+@media (max-width:600px){
+  header{ flex-direction:column; align-items:flex-start; gap:8px }
+  .columns{ grid-template-columns:1fr }
+  .home-gallery{ grid-template-columns:1fr }
+  .card{ padding:18px }
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-item.wide, .bento-item.tall, .bento-item.big { grid-column: span 1; grid-row: span 1; }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+a:focus, button:focus, input:focus, textarea:focus{ outline:3px dashed rgba(201,155,59,0.36); outline-offset:4px }
+code{ background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:6px; color:#fff }
+.muted{ color:rgba(255,255,255,0.85); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="wrap" role="main">
+
+  <!-- HEADER -->
+  <header role="banner" aria-label="Site header">
+    <div class="brand">
+      <div id="siteLogo" class="logo" tabindex="0" title="Click to go home">TUMAINI Children's Ministry</div>
+      <div style="font-size:13px;color:var(--muted)">PCEA Riamukurwe Parish — Nyeri</div>
+    </div>
+
+    <nav class="main" role="navigation" aria-label="Primary navigation">
+      <a href="#home" data-page="home">Home</a>
+      <a href="#about" data-page="about">About</a>
+      <a href="#programs" data-page="programs">Programs</a>
+      <a href="#get-involved" data-page="get-involved">Get Involved</a>
+      <a href="#donate" data-page="donate">Donate</a>
+      <a href="#gallery" data-page="gallery">Gallery</a>
+      <a href="#contact" data-page="contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="close-lightbox" aria-label="Close lightbox">×</button>
+    <div class="lightbox-content">
+      <img class="lightbox-img" src="" alt="">
+      <div class="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- ================= HOME ================= -->
+  <section id="home" class="page active" aria-labelledby="homeTitle">
+    <div class="card" role="region" aria-labelledby="homeTitle">
+      <h1 id="homeTitle">Welcome to Tumaini</h1>
+      <p>We provide shelter, education, healthcare, mentorship and family-strengthening for orphaned & vulnerable children. Tumaini is run under PCEA Riamukurwe Parish and guided by Christian values.</p>
+
+      <!-- ===== LATEST PHOTOS - NOW ABOVE What's New ===== -->
+      <div style="margin-top:18px" class="page-title"><strong style="color:var(--gold)">📸 Latest Photos</strong></div>
+      <div class="home-gallery" id="homeGallery">
+        <!-- EDIT THESE PHOTOS - Change the src and alt attributes to your actual images -->
+        <!-- To add more photos, copy the div.gallery-item block and paste below -->
+        
+        <div class="gallery-item" onclick="openLightbox('images/p.jpg', 'education')">
+          <img src="images/p.jpg" alt="Education">
+        </div>
+        
+        <div class="gallery-item" onclick="openLightbox('images/p3.jpg', 'Education')">
+          <img src="images/p3.jpg" alt="Education">
+        </div>
+        
+        <div class="gallery-item" onclick="openLightbox('images/p10.jpg', 'Education')">
+          <img src="images/p10.jpg" alt="education">
+        </div>
+        
+         <div class="gallery-item" onclick="openLightbox('images/tumaini1 (4).jpg', 'Economic Empowerment')">
+          <img src="images/tumaini1 (4).jpg" alt="Economic Empowerment">
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/tumaini1 (26).jpg', 'Family Reintegration')">
+          <img src="images/tumaini1 (26).jpg" alt="Family Reintegration">
+        </div>
+            
+        <div class="gallery-item" onclick="openLightbox('images/tumaini1 (15).jpg', 'Sponsors')">
+          <img src="images/tumaini1 (15).jpg" alt="Sponsors">
+        </div>
+        
+        <div class="gallery-item" onclick="openLightbox('images/g20.jpg', 'Staff')">
+          <img src="images/g20.jpg" alt="Staff">
+        </div>
+        
+        <div class="gallery-item" onclick="openLightbox('images/p2.jpg', 'Children Activities')">
+          <img src="images/p2.jpg" alt="Children Activities">
+        </div>
+        
+        <div class="gallery-item" onclick="openLightbox('images/tumaini1 (31).jpg', 'Children Activities')">
+          <img src="images/tumaini1 (31).jpg" alt="Children Activities">
+        </div>
+        
+        <div class="gallery-item" onclick="openLightbox('images/tumaini1 (20).jpg', 'Sponsors')">
+          <img src="images/tumaini1 (20).jpg" alt="Sponsors">
+        </div>
+        <!-- END OF LATEST PHOTOS - Add as many as you want above -->
+      </div>
+
+      <!-- ===== WHAT'S NEW - NOW BELOW Latest Photos ===== -->
+      <div style="margin-top:18px" class="page-title"><strong style="color:var(--gold)">What's New</strong></div>
+      <div class="columns whats-new" id="whatsNew">
+        <!-- EDIT THESE NEWS ITEMS - Change the text inside the <h4> and <div> tags -->
+        <div class="news">
+          <h4>Education and Sponsorship</h4>
+          <div style="color:rgba(255,255,255,0.92);font-weight:700">Tumaini Huruma Children's Centre has launched a transformative Community Education Sponsorship Program in 2025, identifying and supporting 12 high-performing yet vulnerable students from Riamukurwe Primary and Secondary Schools. This initiative ensures that financial barriers no longer hinder academic excellence. In a remarkable milestone, four of the centre's own students—Mercy Wanja, Veronica Wambui, Dennis Gikonyo, and Zachary Irungu—have enrolled in universities and technical institutes, while recent graduates Samuel Mwai, Richard Murage, and Michael Ndirangu have proudly completed their degrees and diplomas.</div>
+        </div>
+        <div class="news">
+          <h4>Infrastructure & Sustainable Development</h4>
+          <div style="color:rgba(255,255,255,0.92);font-weight:700">The centre has made significant strides in sustainable living with the successful installation of a biogas system, converting organic waste into clean cooking fuel to reduce energy costs and promote environmental health. Additionally, the new Huruma Piggery Project is now operational with two breeding sows and five piglets, marking the beginning of a self-sustaining income-generating venture. These initiatives complement the centre's three farms, which produced essential maize, vegetables, and milk to support both the home and reintegrated families throughout 2025.</div>
+        </div>
+        <div class="news">
+          <h4>Family Reintegration & Housing Milestone</h4>
+          <div style="color:rgba(255,255,255,0.92);font-weight:700">In a heartwarming achievement, Tumaini Huruma successfully completed the construction of a permanent family home for Grace Wairimu and John Kiago, children who had been in the centre's care since 2012. The KES 234,575 project transformed a critically inadequate living situation into a safe, secure two-room house, complete with new beds and bedding. This milestone is part of a broader reintegration success, with 59 children reunified with their families through regular home visits, school transfers, and monthly support packages provided by the dedicated social work team.</div>
+        </div>
+        <!-- ADD MORE NEWS ITEMS HERE by copying the div.news block above -->
+      </div>
+
+      <!-- 2025 Impact Report -->
+      <div style="margin-top:18px" class="page-title"><strong style="color:var(--gold)">2025 Impact Report</strong></div>
+      <ul style="color:rgba(255,255,255,0.92); margin-left: 20px; margin-top: 10px;">
+        <li><strong>87 children</strong> served across various levels of education and care</li>
+        <li><strong>33 children</strong> in Primary School</li>
+        <li><strong>33 children</strong> in Secondary School</li>
+        <li><strong>19 young adults</strong> in Colleges and Universities</li>
+        <li><strong>11 students</strong> sat for KCSE exams in 2025</li>
+        <li><strong>4 new university enrollments</strong></li>
+        <li><strong>New Sponsorship Program</strong> launched with 12 students</li>
+        <li><strong>59 children</strong> reintegrated with families</li>
+        <li><strong>House constructed</strong> for Grace Wairimu and John Kiago</li>
+      </ul>
+      <div style="margin-top:8px">
+        <a href="2025_Annual_Report.docx" download class="download-btn">
+          <i class="fas fa-download"></i> Download 2025 Annual Report
+        </a>
+      </div>
+
+      <div style="margin-top:18px" class="page-title"><strong style="color:var(--gold)">Programs</strong></div>
+      <p>Education sponsorship, vocational skills training, health & nutrition programs, and family-reintegration work.</p>
+      <div style="margin-top:8px"><button class="btn" onclick="navigate('programs')">Explore Programs</button></div>
+
+      <div style="margin-top:18px" class="page-title"><strong style="color:var(--gold)">Support & Donations</strong></div>
+      <p>Donations provide meals, school fees, uniforms, healthcare and help maintain safe facilities.</p>
+      <div style="margin-top:8px"><button class="btn" onclick="navigate('donate')">Donate</button></div>
+
+      <!-- Student Success Stories -->
+      <div style="margin-top:18px" class="page-title"><strong style="color:var(--gold)">Student Success Stories</strong></div>
+      <div class="student-stories">
+        <div class="student-story">
+          <img src="images/tumaini1 (7).jpg" alt="Zacchary Irungu" onclick="openLightbox('images/tumaini1 (7).jpg', 'Zacchary Irungu - Student')">
+          <div class="student-story-content">
+            <h4>Zacchary Irungu</h4>
+            <p>"I joined Tumaini Children's Home in 2017 when I was in class five. Today, I am proud to say that I have joined college — a dream I once thought was beyond my reach."</p>
+            <div class="student-story-meta">Now at: Michuki Technical Training Institute</div>
+          </div>
+        </div>
+        
+        <div class="student-story">
+          <img src="images/tumaini1 (38).jpg" alt="Dennis Gikonyo" onclick="openLightbox('images/tumaini1 (38).jpg', 'Dennis Gikonyo - Student')">
+          <div class="student-story-content">
+            <h4>Dennis Gikonyo</h4>
+            <p>"My journey in Tumaini home started in the year 2014 while I was in class two. Tumaini has been a home for me since I was a kid."</p>
+            <div class="student-story-meta">Now at: Michuki Technical Training Institute</div>
+          </div>
+        </div>
+        
+        <div class="student-story">
+          <img src="images/tumaini1 (22).jpg" alt="Elvis Kinyua" onclick="openLightbox('images/tumaini1 (22).jpg', 'Elvis Kinyua - Student')">
+          <div class="student-story-content">
+            <h4>Elvis Kinyua</h4>
+            <p>"Staying in Tumaini children's home profoundly impacted me by offering a safety net, emotional, social, interaction and survival skills development."</p>
+            <div class="student-story-meta">Pursuing Economics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C180 10 360 80 720 40 C1080 0 1260 80 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="page" aria-labelledby="aboutTitle">
+    <div class="card" role="region" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle">About Tumaini Children's Ministry</h2>
+      <h3 style="color:var(--gold);margin-top:8px">Mission</h3>
+      <p class="muted">To give hope and build families for children in need through helping them shape their futures and share in community development.</p>
+      <h3 style="color:var(--gold);margin-top:12px">Vision</h3>
+      <p class="muted">To ensure every child belongs to a family in a supportive environment and grows with love, respect and security.</p>
+      <h3 style="color:var(--gold);margin-top:12px">Our Core Values</h3>
+      <ul style="color:rgba(255,255,255,0.92);margin-left:18px;margin-top:8px">
+        <li>Professionalism & accountability - we are reliable partners</li>
+        <li>Teamwork - we collaborate with key partners</li>
+        <li>Trust & Confidentiality - every information provided is safe and secure</li>
+        <li>Prudence - we take action</li>
+        <li>Empathy - We promote an environment of emotional support</li>
+      </ul>
+      
+      <!-- History -->
+      <div style="margin-top:12px">
+        <h3 style="color:var(--gold)">History</h3>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+          <img src="images/h.jpg" alt="History" style="width:320px;border-radius:10px;flex-shrink:0; cursor:pointer;" onclick="openLightbox('images/h.jpg', 'Tumaini History')">
+          <div style="flex:1">
+            <p style="color:rgba(255,255,255,0.92)">P.C.E.A Tumaini children's ministry comprises Tumaini and Huruma children's home, an institution of Presbyterian Church of East Africa Riamukurwe Parish being part of the mission work addressing the needy persons especially the child welfare, including feeding, clothing, medical and education. These are children from normal homes experiencing economic, emotional, and social upheavals. The idea is to provide transient support to enable the children under those unfortunate circumstances achieve meaning in their lives particularly elementary and secondary education.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leadership Messages -->
+      <div style="margin-top:18px">
+        <h3 style="color:var(--gold)">Leadership Messages</h3>
+        <div style="margin-top:15px; padding:15px; background: rgba(255,255,255,0.05); border-radius:10px;">
+          <h4 style="color:#fff; margin-bottom:8px;">Message from Our Parish Minister</h4>
+          <p style="color:rgba(255,255,255,0.92)">"Receive Christian greetings in the name of our Lord. The winds of change continue to sweep across our continent, touching every sector of life. In the face of these challenges, our faith has been our anchor and our guide. The scripture reminds us that 'the people who know their God will display strength and take action' (Daniel 11:32). This year, we took decisive action—adapting our programs, launching new initiatives, and deepening our community roots to ensure our mission not only endures but thrives. We extend our deepest gratitude to our donors, prayer partners, and the P.C.E.A Riamukurwe Session. Your support is the bedrock upon which we build hope."</p>
+          <p style="color:var(--gold);font-weight:bold;margin-top:8px">Rev. James K. Mbarachu, Parish Minister</p>
+        </div>
+        <div style="margin-top:15px; padding:15px; background: rgba(255,255,255,0.05); border-radius:10px;">
+          <h4 style="color:#fff; margin-bottom:8px;">Message from the Secretary BOM</h4>
+          <p style="color:rgba(255,255,255,0.92)">"As the year draws to a close, I am pleased to present to you the end of year summary on behalf of the Board of Management. It has been a year marked with growth, resilience and continued dedication to the well-being of the children under our care. Throughout the year the board held 12 meetings where the key agenda was the welfare of the children. We were able to put up a house for one family that didn't have one. We continue to encourage our children to perform well in school. We are grateful to God and our partners for the generosity of their support. The financial contributions that helped to sustain our day to day operations."</p>
+          <p style="color:var(--gold);font-weight:bold;margin-top:8px">Virginia Munyiri, BOM Secretary</p>
+        </div>
+      </div>
+
+      <!-- BOARD OF MANAGEMENT -->
+      <div style="margin-top:18px">
+        <h3 style="color:var(--gold)">Board of Management</h3>
+        <div class="board-members-container">
+          <div class="board-image">
+            <img src="images/tumaini1 (37).jpg" alt="Board Members" onclick="openLightbox('images/tumaini1 (37).jpg', 'Board of Management')">
+          </div>
+          <div class="board-list">
+            <ul>
+              <li><strong>Rev. James Mbarachu</strong> - Oversee all operations</li>
+              <li><strong>Eunice Kago</strong> - Vice Secretary</li>
+              <li><strong>Beth Ngari</strong> - Treasurer</li>
+              <li><strong>Hillary Wachira</strong> - Session clerk</li>
+              <li><strong>Joseph Waweru</strong> - Member</li>
+              <li><strong>Maragaret Mwangi</strong> - Member</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <h3 style="color:var(--gold)">Facilities</h3>
+        <ul style="color:rgba(255,255,255,0.95);margin-left:18px;margin-top:8px">
+          <li>Children's dormitories (separate boys & girls units)</li>
+          <li>Dining hall and kitchen</li>
+          <li>Classrooms and study center</li>
+          <li>Skills training workshop (tailoring, plumbing, welding, electrical, ICT)</li>
+          <li>Playground and sports fields</li>
+          <li>Health & counseling room</li>
+        </ul>
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C180 80 360 10 720 40 C1080 70 1260 10 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================= PROGRAMS ================= -->
+  <section id="programs" class="page" aria-labelledby="programsTitle">
+    <div class="card" role="region" aria-labelledby="programsTitle">
+      <h2 id="programsTitle">Programs</h2>
+      <div class="program-container">
+        <!-- Shelter & Care -->
+        <div class="program-section">
+          <div class="program-image-container" onclick="openLightbox('images/w2.jpg', 'Shelter & Care')">
+            <img src="images/w2.jpg" alt="Shelter">
+          </div>
+          <h3>Shelter & Care</h3>
+          <p>Daily routines, psychosocial support and safe dormitory living with trained caregivers. In 2025, we provided comprehensive care for 87 children.</p>
+        </div>
+
+        <!-- Education Support -->
+        <div class="program-section">
+          <div class="program-image-container" onclick="openLightbox('images/p3.jpg', 'Education Support')">
+            <img src="images/p3.jpg" alt="Education">
+          </div>
+          <h3>Education Support</h3>
+          <p>School fees, uniforms, tutoring, library access and exam preparation. In 2025, we supported 33 children in Primary, 33 in Secondary, and 19 in Colleges/Universities.</p>
+        </div>
+
+        <!-- Vocational Skills -->
+        <div class="program-section">
+          <div class="program-image-container" onclick="openLightbox('images/g8.jpg', 'Vocational Skills')">
+            <img src="images/g8.jpg" alt="Vocational">
+          </div>
+          <h3>Vocational Skills</h3>
+          <p>Tailoring, welding, plumbing, electrical and ICT training — with income-generation projects.</p>
+        </div>
+
+        <!-- Health & Nutrition -->
+        <div class="program-section">
+          <div class="program-image-container" onclick="openLightbox('images/Tumaini 2 B.jpg', 'Health & Nutrition')">
+            <img src="images/Tumaini 2 B.jpg" alt="Health">
+          </div>
+          <h3>Health & Nutrition</h3>
+          <p>Balanced meals from farm produce, routine checks and referrals to local clinics.</p>
+        </div>
+
+        <!-- Family Strengthening -->
+        <div class="program-section">
+          <div class="program-image-container" onclick="openLightbox('images/Tumaini 32B.jpg', 'Family Strengthening')">
+            <img src="images/Tumaini 32B.jpg" alt="Family">
+          </div>
+          <h3>Family Strengthening & Reintegration</h3>
+          <p>Tracing, counselling and reintegration where safe. In 2024, we reintegrated 59 children with their families.</p>
+        </div>
+
+        <!-- Economic Empowerment -->
+        <div class="program-section">
+          <div class="program-image-container" onclick="openLightbox('images/tumaini1 (36).jpg', 'Economic Empowerment')">
+            <img src="images/tumaini1 (36).jpg" alt="Economic Empowerment">
+          </div>
+          <h3>Economic Empowerment & Sustainable Development</h3>
+          <p>Piggery Project, Biogas Installation, and three farms for food security producing maize, vegetables, and milk.</p>
+        </div>
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C200 10 380 80 720 40 C1060 0 1240 80 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================= GET INVOLVED ================= -->
+  <section id="get-involved" class="page" aria-labelledby="getInvolvedTitle">
+    <div class="card" role="region" aria-labelledby="getInvolvedTitle">
+      <h2 id="getInvolvedTitle">Get Involved</h2>
+      <p>There are several meaningful ways to support Tumaini.</p>
+      <h3 style="color:var(--gold);margin-top:12px">Volunteer</h3>
+      <p class="muted">Short-term volunteers help with tutoring, activities and events.</p>
+      <h3 style="color:var(--gold);margin-top:10px">Sponsor a Child</h3>
+      <p class="muted">Sponsorship covers school fees, uniforms, basic medical care and pocket funds.</p>
+      <h3 style="color:var(--gold);margin-top:10px">Partner & Corporate Support</h3>
+      <p class="muted">Local businesses, churches, and NGOs can partner on projects.</p>
+      <div style="margin-top:12px">
+        <button class="btn" onclick="navigate('contact')">Register Interest</button>
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C200 80 380 10 720 40 C1060 70 1240 10 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================= DONATE ================= -->
+  <section id="donate" class="page" aria-labelledby="donateTitle">
+    <div class="card" role="region" aria-labelledby="donateTitle">
+      <h2 id="donateTitle">Donate</h2>
+      <p>Your donations support daily operations and long-term projects.</p>
+      <div style="margin-top:12px">
+        <h3 style="color:var(--gold)">Suggested Donation Uses</h3>
+        <ul style="color:rgba(255,255,255,0.92);margin-left:18px">
+          <li>KES 2,000 / month — support a child's school essentials</li>
+          <li>KES 5,000 — monthly meals for the home</li>
+          <li>KES 15,000 — vocational workshop supplies (per term)</li>
+        </ul>
+      </div>
+      <div style="margin-top:12px">
+        <h3 style="color:var(--gold)">Payment Options</h3>
+        <div class="fund-grid">
+          <div class="fund"><strong>Bank Transfer</strong><p class="muted">Account: Tumaini Children's Ministry</p></div>
+          <div class="fund"><strong>M-Pesa</strong><p class="muted">Paybill: 123456 — Account: TUMAINI</p></div>
+          <div class="fund"><strong>PayPal</strong><p class="muted">pceariamktumainichildrenshome@gmail.com</p></div>
+          <div class="fund"><strong>Physical Goods</strong><p class="muted">Arrange drop-off with the office.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C140 10 360 80 720 40 C1080 0 1260 80 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section id="gallery" class="page gallery" aria-labelledby="galleryTitle">
+    <div class="card" role="region" aria-labelledby="galleryTitle">
+      <h2 id="galleryTitle">Gallery</h2>
+      <p class="muted">Click on any photo to view larger. Hover to see the magnet effect.</p>
+
+      <!-- SPONSORS SECTION - BENTO GRID -->
+      <div class="gallery-section">
+        <h3>Sponsors</h3>
+        <div class="bento-grid">
+          <!-- Mix of different sized cells for bento effect -->
+          <div class="bento-item tall" onclick="openLightbox('images/tumaini1 (33).jpg', 'Sponsor')">
+            <img src="images/tumaini1 (33).jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/w1.jpg', 'Sponsor')">
+            <img src="images/w1.jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/w3.jpg', 'Sponsor')">
+            <img src="images/w3.jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/s.jpg', 'Sponsor')">
+            <img src="images/s.jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/s3.jpg', 'Children Activities')">
+            <img src="images/s3.jpg" alt="Children">
+            <div class="bento-caption">Sponsors and staff</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/w1.jpg', 'Sponsor')">
+            <img src="images/w1.jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/tumaini1 (13).jpg', 'Sponsor')">
+            <img src="images/tumaini1 (13).jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/tumaini1 (37).jpg', 'Sponsor')">
+            <img src="images/tumaini1 (37).jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/Tumaini 14B.jpg', 'Sponsor')">
+            <img src="images/Tumaini 14B.jpg" alt="Sponsor">
+            <div class="bento-caption">Sponsor</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAFF SECTION - BENTO GRID -->
+      <div class="gallery-section">
+        <h3>Staff</h3>
+        <div class="bento-grid">
+          <div class="bento-item tall" onclick="openLightbox('images/s.jpg', 'Virginia Munyiri')">
+            <img src="images/s.jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+          <div class="bento-item tall" onclick="openLightbox('images/s2.jpg', 'Eunice Kago')">
+            <img src="images/s2.jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+          <div class="bento-item tall" onclick="openLightbox('images/g8.jpg', 'Staff')">
+            <img src="images/g8.jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+          <div class="bento-item tall" onclick="openLightbox('images/tumaini1 (16).jpg', 'Staff')">
+            <img src="images/tumaini1 (16).jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g6.jpg', 'Staff')">
+            <img src="images/g6.jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g12.jpg', 'Staff')">
+            <img src="images/g12.jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g20.jpg', 'Staff')">
+            <img src="images/g20.jpg" alt="Staff">
+            <div class="bento-caption">Staff</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHILDREN & ACTIVITIES - BENTO GRID -->
+      <div class="gallery-section">
+        <h3>Children & Activities</h3>
+        <div class="bento-grid">
+          <div class="bento-item big" onclick="openLightbox('images/bg.jpg', 'Children Activities')">
+            <img src="images/bg.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item big" onclick="openLightbox('images/bg2.jpg', 'Children Activities')">
+            <img src="images/bg2.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/tumaini1 (12).jpg', 'Children Activities')">
+            <img src="images/tumaini1 (12).jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g3.jpg', 'Children Activities')">
+            <img src="images/g3.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g4.jpg', 'Children Activities')">
+            <img src="images/g4.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g5.jpg', 'Children Activities')">
+            <img src="images/g5.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item tall" onclick="openLightbox('images/g7.jpg', 'Children Activities')">
+            <img src="images/g7.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/g10.jpg', 'Children Activities')">
+            <img src="images/g10.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/w.jpg', 'Children Activities')">
+            <img src="images/w.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/p7.jpg', 'Children Activities')">
+            <img src="images/p7.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/Tumaini 18B.jpg', 'Children Activities')">
+            <img src="images/Tumaini 18B.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/tumaini1 (19).jpg', 'Children Activities')">
+            <img src="images/tumaini1 (19).jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/g3.jpg', 'Children Activities')">
+            <img src="images/g3.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/Tumaini 11B.jpg', 'Children Activities')">
+            <img src="images/Tumaini 11B.jpg" alt="Children">
+            <div class="bento-caption">Children Activities</div>
+          </div>
+      
+        </div>
+      </div>
+
+      <!-- PROGRAMS - BENTO GRID -->
+      <div class="gallery-section">
+        <h3>Programs</h3>
+        <div class="bento-grid">
+          <div class="bento-item tall" onclick="openLightbox('images/p4.jpg', 'Program')">
+            <img src="images/p4.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          
+          <div class="bento-item" onclick="openLightbox('images/w.jpg', 'Program')">
+            <img src="images/w.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/p.jpg', 'Program')">
+            <img src="images/p.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/p1.jpg', 'Program')">
+            <img src="images/p1.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/p2.jpg', 'Program')">
+            <img src="images/p2.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/p3.jpg', 'Program')">
+            <img src="images/p3.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+           <div class="bento-item tall" onclick="openLightbox('images/Tumaini 62B.jpg', 'Program')">
+            <img src="images/Tumaini 62B.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/w2.jpg', 'Program')">
+            <img src="images/w2.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/tumaini1 (14).jpg', 'Program')">
+            <img src="images/tumaini1 (14).jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item tall" onclick="openLightbox('images/Tumaini 3 B.jpg', 'Program')">
+            <img src="images/Tumaini 3 B.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/tumaini1 (32).jpg', 'Program')">
+            <img src="images/tumaini1 (32).jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/tumaini1 (34).jpg', 'Program')">
+            <img src="images/tumaini1 (34).jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/Tumaini 9 B.jpg', 'Program')">
+            <img src="images/Tumaini 9 B.jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item" onclick="openLightbox('images/tumaini1 (2).jpg', 'Program')">
+            <img src="images/tumaini1 (2).jpg" alt="Program">
+            <div class="bento-caption">Programs</div>
+          </div>
+          <div class="bento-item wide" onclick="openLightbox('images/Tumaini 24B.jpg', 'Children Activities')">
+            <img src="images/Tumaini 24B.jpg" alt="Children">
+            <div class="bento-caption">Programs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C200 80 400 10 720 40 C1040 80 1240 10 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="page" aria-labelledby="contactTitle">
+    <div class="card" role="region" aria-labelledby="contactTitle">
+      <h2 id="contactTitle">Contact Us</h2>
+      <p>Reach out for sponsorships, volunteering, partnerships or general enquiries.</p>
+      <form id="contactForm" class="contact-form" action="https://formsubmit.co/pceariamktumainichildrenshome@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New Contact Form - Tumaini Website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="#contact">
+        <input name="name" placeholder="Full name" required>
+        <input name="email" type="email" placeholder="Email address" required>
+        <input name="phone" placeholder="Phone number (optional)">
+        <select name="interest" required>
+          <option value="" disabled selected>Select your interest</option>
+          <option value="volunteering">Get Involved</option>
+          <option value="donation">Donate</option>
+        </select>
+        <textarea name="message" rows="6" placeholder="Your message" required></textarea>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button type="reset" class="btn" style="background:transparent;color:var(--section-blue);border:2px solid var(--gold)">Reset</button>
+          <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </div>
+      </form>
+      <div style="margin-top:14px;color:rgba(255,255,255,0.9)">
+        <strong>Location:</strong> Nyeri, Kenya &nbsp; • &nbsp; 
+        <strong>Email:</strong> pceariamktumainichildrenshome@gmail.com
+      </div>
+    </div>
+    <div class="wave-brush" aria-hidden="true">
+      <svg viewBox="0 0 1440 84" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 40 C140 10 360 80 720 40 C1080 10 1260 80 1440 40" fill="none" stroke="rgba(201,155,59,0.95)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="text-align:center;margin-top:18px;color:var(--muted);font-size:14px">
+    &copy; <span id="year"></span> TUMAINI Children's Ministry — PCEA Riamukurwe Parish. All rights reserved.
+  </footer>
+</div>
+
+<!-- ================= SIMPLIFIED JAVASCRIPT ================= -->
+<script>
+// SPA Navigation - only for page switching, not for content
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.location.hash) {
+    showPage('home');
+  } else {
+    const pageId = window.location.hash.replace('#', '');
+    if (pageId && document.getElementById(pageId)) {
+      showPage(pageId);
+    } else {
+      showPage('home');
+    }
+  }
+  
+  // Logo animation
+  const logo = document.getElementById('siteLogo');
+  if (logo) {
+    function doPulse() {
+      logo.classList.remove('pulse');
+      void logo.offsetWidth;
+      logo.classList.add('pulse');
+    }
+    setTimeout(doPulse, 1000);
+    setInterval(doPulse, 5000);
+    logo.addEventListener('click', () => showPage('home'));
+  }
+  
+  // Set year
+  document.getElementById('year').textContent = new Date().getFullYear();
+});
+
+// Page navigation
+function showPage(pageId) {
+  document.querySelectorAll('section.page').forEach(page => {
+    page.style.display = 'none';
+    page.classList.remove('active');
+  });
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) {
+    targetPage.style.display = 'block';
+    targetPage.classList.add('active');
+    window.location.hash = pageId;
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+
+// Navigation click handlers
+document.querySelectorAll('a[data-page]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    showPage(this.getAttribute('data-page'));
+  });
+});
+
+window.addEventListener('hashchange', function() {
+  const pageId = window.location.hash.replace('#', '');
+  if (pageId && document.getElementById(pageId)) showPage(pageId);
+});
+
+window.navigate = showPage;
+
+// Lightbox functionality
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('.lightbox-img');
+const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+const closeBtn = lightbox.querySelector('.close-lightbox');
+
+window.openLightbox = function(src, caption) {
+  lightboxImg.src = src;
+  lightboxImg.alt = caption;
+  lightboxCaption.textContent = caption;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+closeBtn.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', function(e) {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+    closeLightbox();
+  }
+});
+</script>
+</body>
+</html>
